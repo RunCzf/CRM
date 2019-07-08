@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.crm.dao.SysUserMapper">
+	<resultMap type="com.briup.crm.common.bean.SysUser" id="sysUserResultMap">
+		<id property="usrId" column="usr_id"/>
+		<result property="usrName" column="usr_name"/>
+		<result property="usrPassword" column="usr_password"/>
+		<result property="usrFlag" column="usr_flag"/>
+		<association property="sysRole" foreignColumn="usr_role_id" javaType="com.briup.crm.common.bean.SysRole" >
+			<id property="roleId" column="role_id"/>
+			<result property="roleName" column="role_name"/>
+			<result property="roleDesc" column="role_desc"/>
+			<result property="roleFlag" column="role_flag"/>
+		</association>
+	</resultMap>
+	<select id="selectSysUser" resultMap="sysUserResultMap">
+		select u.*,r.* 
+		from sys_user u,sys_role r 
+		where usr_name = #{name} and usr_password = #{pwd} and r.role_id = u.usr_role_id
+	</select>
+	<!-- 级联查询 -->
+	<select id="findAllUsers" resultMap="sysUserResultMap">
+		select u.*,r.* 
+		from sys_user u,sys_role r 
+		where r.role_id = u.usr_role_id
+	</select>
+	<insert id="addOneUser" parameterType="com.briup.crm.common.bean.SysUser">
+		<!-- 这个查找时候要与sysRole表相关联 -->
+		insert into sys_user
+		values(#{usrId},#{usrName},#{usrPassword},#{usrFlag},#{sysRole.roleId})
+	</insert>
+	<update id="sysUpdateUser" >
+		update sys_user set usr_name = #{usrName},usr_password=#{usrPassword},usr_flag=#{usrFlag} where usr_id =#{usrId}
+		<!-- in -->
+        <!-- <foreach collection="sysRoleResultMap" item="roleId" index="index" open="(" close=")" separator=",">
+            #{roleId}
+        </foreach> -->
+	</update>
+	<delete id="sysDeleteOneUser" parameterType="Integer">
+		delete from sys_user where usr_id =#{usrId}
+	</delete>
+	<select id="sysfindOneUser" parameterType="long" resultMap="sysUserResultMap">
+		select * from sys_user where usr_id=#{usrId}
+	</select>
+	<select id="findMName" resultMap="sysUserResultMap">
+		select * from sys_user where usr_role_id=4
+	</select>
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.briup.crm.dao.CstLinkmanMapper" >
+  <resultMap id="BaseResultMap" type="com.briup.crm.common.bean.CstLinkman" >
+    <id column="LKM_ID" property="lkmId" jdbcType="DECIMAL" />
+    <result column="LKM_CUST_ID" property="lkmCustId" jdbcType="DECIMAL" />
+    <result column="LKM_CUST_NO" property="lkmCustNo" jdbcType="VARCHAR" />
+    <result column="LKM_CUST_NAME" property="lkmCustName" jdbcType="VARCHAR" />
+    <result column="LKM_NAME" property="lkmName" jdbcType="VARCHAR" />
+    <result column="LKM_SEX" property="lkmSex" jdbcType="VARCHAR" />
+    <result column="LKM_POSTION" property="lkmPostion" jdbcType="VARCHAR" />
+    <result column="LKM_TEL" property="lkmTel" jdbcType="VARCHAR" />
+    <result column="LKM_MOBILE" property="lkmMobile" jdbcType="VARCHAR" />
+    <result column="LKM_MEMO" property="lkmMemo" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <select id="findAllLinkMan" resultMap="BaseResultMap" parameterType="long">
+  select * from CST_LINKMAN where lkm_cust_id=#{lkmCustId}
+  </select>
+  <select id="findLinkMan" resultMap="BaseResultMap" parameterType="long">
+  select * from CST_LINKMAN where lkm_id=#{lkmId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from CST_LINKMAN
+    where LKM_ID = #{lkmId,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.briup.crm.common.bean.CstLinkman" >
+    insert into CST_LINKMAN (LKM_ID, LKM_CUST_ID, LKM_CUST_NO, 
+      LKM_CUST_NAME, LKM_NAME, LKM_SEX, 
+      LKM_POSTION, LKM_TEL, LKM_MOBILE, 
+      LKM_MEMO)
+    values (seq_link.nextval, #{lkmCustId,jdbcType=DECIMAL}, #{lkmCustId,jdbcType=VARCHAR}, 
+      #{lkmCustName,jdbcType=VARCHAR}, #{lkmName,jdbcType=VARCHAR}, #{lkmSex,jdbcType=VARCHAR}, 
+      #{lkmPostion,jdbcType=VARCHAR}, #{lkmTel,jdbcType=VARCHAR}, #{lkmMobile,jdbcType=VARCHAR}, 
+      #{lkmMemo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.briup.crm.common.bean.CstLinkman" >
+    insert into CST_LINKMAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lkmId != null" >
+        LKM_ID,
+      </if>
+      <if test="lkmCustId != null" >
+        LKM_CUST_ID,
+      </if>
+      <if test="lkmCustNo != null" >
+        LKM_CUST_NO,
+      </if>
+      <if test="lkmCustName != null" >
+        LKM_CUST_NAME,
+      </if>
+      <if test="lkmName != null" >
+        LKM_NAME,
+      </if>
+      <if test="lkmSex != null" >
+        LKM_SEX,
+      </if>
+      <if test="lkmPostion != null" >
+        LKM_POSTION,
+      </if>
+      <if test="lkmTel != null" >
+        LKM_TEL,
+      </if>
+      <if test="lkmMobile != null" >
+        LKM_MOBILE,
+      </if>
+      <if test="lkmMemo != null" >
+        LKM_MEMO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lkmId != null" >
+        #{lkmId,jdbcType=DECIMAL},
+      </if>
+      <if test="lkmCustId != null" >
+        #{lkmCustId,jdbcType=DECIMAL},
+      </if>
+      <if test="lkmCustNo != null" >
+        #{lkmCustNo,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmCustName != null" >
+        #{lkmCustName,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmName != null" >
+        #{lkmName,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmSex != null" >
+        #{lkmSex,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmPostion != null" >
+        #{lkmPostion,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmTel != null" >
+        #{lkmTel,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmMobile != null" >
+        #{lkmMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmMemo != null" >
+        #{lkmMemo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.briup.crm.common.bean.CstLinkman" >
+    update CST_LINKMAN
+    <set >
+      <if test="lkmCustId != null" >
+        LKM_CUST_ID = #{lkmCustId,jdbcType=DECIMAL},
+      </if>
+      <if test="lkmCustNo != null" >
+        LKM_CUST_NO = #{lkmCustNo,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmCustName != null" >
+        LKM_CUST_NAME = #{lkmCustName,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmName != null" >
+        LKM_NAME = #{lkmName,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmSex != null" >
+        LKM_SEX = #{lkmSex,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmPostion != null" >
+        LKM_POSTION = #{lkmPostion,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmTel != null" >
+        LKM_TEL = #{lkmTel,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmMobile != null" >
+        LKM_MOBILE = #{lkmMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="lkmMemo != null" >
+        LKM_MEMO = #{lkmMemo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LKM_ID = #{lkmId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.briup.crm.common.bean.CstLinkman" >
+    update CST_LINKMAN
+    set LKM_CUST_ID = #{lkmCustId,jdbcType=DECIMAL},
+      LKM_CUST_NO = #{lkmCustNo,jdbcType=VARCHAR},
+      LKM_CUST_NAME = #{lkmCustName,jdbcType=VARCHAR},
+      LKM_NAME = #{lkmName,jdbcType=VARCHAR},
+      LKM_SEX = #{lkmSex,jdbcType=VARCHAR},
+      LKM_POSTION = #{lkmPostion,jdbcType=VARCHAR},
+      LKM_TEL = #{lkmTel,jdbcType=VARCHAR},
+      LKM_MOBILE = #{lkmMobile,jdbcType=VARCHAR},
+      LKM_MEMO = #{lkmMemo,jdbcType=VARCHAR}
+    where LKM_ID = #{lkmId,jdbcType=DECIMAL}
+  </update>
+  <delete id="deleteLinkman" parameterType="Long">
+   		delete from cst_linkman where LKM_ID = #{lkmId}
+   </delete>
+</mapper>

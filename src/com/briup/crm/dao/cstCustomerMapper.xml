@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.crm.dao.CstCustomerMapper">
+	<resultMap type="com.briup.crm.common.bean.CstCustomer" id="cstCustomerResultMap">
+		<id property="custId" column="cust_id"/>
+		<result property="custNo" column="cust_no"/>
+		<result property="custName" column="cust_name"/>
+		<result property="custRegion" column="cust_region"/>
+		<result property="custManagerId" column="cust_manager_id"/>
+		<result property="custManagerName" column="cust_manager_name"/>
+		<result property="custLevel" column="cust_level"/>
+		<result property="custLevelLabel" column="cust_level_label"/>
+		<result property="custSatisfy" column="cust_satisfy"/>
+		<result property="custCredit" column="cust_credit"/>
+		<result property="custAddr" column="cust_addr"/>
+		<result property="custZip" column="cust_zip"/>
+		<result property="custTel" column="cust_tel"/>
+		<result property="custFax" column="cust_fax"/>
+		<result property="custWebsite" column="cust_website"/>
+		<result property="custLicenceNo" column="cust_licence_no"/>
+		<result property="custChieftain" column="cust_chieftain"/>
+		<result property="custBankroll" column="cust_bankroll"/>
+		<result property="custTurnover" column="cust_turnover"/>
+		<result property="custBank" column="cust_bank"/>
+		<result property="custBankAccount" column="cust_bank_account"/>
+		<result property="custLocalTaxNo" column="cust_local_tax_no"/>
+		<result property="custNationalTaxNo" column="cust_national_tax_no"/>
+		<result property="custStatus" column="cust_status"/>
+	</resultMap>
+	<select id="findAllCstCustomer" resultMap="cstCustomerResultMap">
+		select * from cst_customer
+	</select>
+	<select id="findCustByCstNo" parameterType="String" resultMap="cstCustomerResultMap">
+		select * from cst_customer where cust_id=#{custId}
+	</select>
+	<select id="selectCustomerByNo" parameterType="Integer" resultMap="cstCustomerResultMap">
+		select * from cst_customer where cust_id=#{custId}
+	</select>
+	<select id="findCustomerName" parameterType="long" resultType="String">
+		select cust_name from cst_customer where cust_id=#{custId}
+	</select>
+	<insert id="cstAddCustomer" parameterType="com.briup.crm.common.bean.CstCustomer">
+		insert into cst_customer (
+		cust_id,cust_no,cust_name,cust_region,cust_manager_name,cust_level_label,cust_satisfy,cust_credit,cust_addr,cust_zip,cust_tel,cust_fax,cust_website,cust_licence_no,cust_chieftain,
+		cust_bankroll,cust_turnover,cust_bank,cust_bank_account,
+		cust_local_tax_no,cust_national_tax_no
+		)
+		values(#{custId},#{custId},#{custName},#{custRegion},
+		#{custManagerName},#{custLevelLabel},#{custSatisfy},#{custCredit},#{custAddr},#{custZip},
+		#{custTel},#{custFax},#{custWebsite},#{custLicenceNo},#{custChieftain},#{custBankroll},
+		#{custTurnover},#{custBank},#{custBankAccount},#{custLocalTaxNo},#{custNationalTaxNo}
+		)
+	</insert>
+	<select id="findAllCustomer" resultMap="cstCustomerResultMap">
+	select * from cst_customer
+	<where>
+			<if test="custNo!='' and custNo!= null">
+				cust_no like '%${custNo}%'
+			</if>
+			<if test="custName != null and custName != '' ">
+                and cust_name like '%${custName}%'
+            </if>
+            <if test="custAddr != null and custAddr != ''">
+                AND cust_addr LIKE '%${custAddr}%'
+            </if>
+            <if test="custManagerName != null and custManagerName != ''">
+                AND cust_manager_name LIKE '%${custManagerName}%'
+            </if>
+            <if test="custLevelLabel != null and custLevelLabel != ''">
+                AND cust_level_label LIKE '%${custLevelLabel}%'
+            </if>
+		
+		</where>
+	
+	</select>
+	<select id="selectBycustName" resultMap="cstCustomerResultMap" parameterType="String">
+		select * from cst_customer where cust_name=#{custName}
+	</select>
+	<select id="selectBylevelLable" resultMap="cstCustomerResultMap" parameterType="String">
+		select * from cst_customer where cust_level_label=#{custLevelLable}
+	</select>
+	<select id="selectByCredit" resultMap="cstCustomerResultMap" parameterType="Integer">
+		select * from cst_customer where cust_credit=#{custCredit}
+	</select>
+	<select id="selectBySatisfy" resultMap="cstCustomerResultMap" parameterType="int">
+		select * from cst_customer where cust_satisfy=#{custSatisfy}
+	</select>
+	<delete id="deleteService" parameterType="long">
+		delete from cst_service where svr_id=#{svrId}
+	</delete>
+	<update id="updateOneCustomer" parameterType="com.briup.crm.common.bean.CstCustomer">
+	update cst_customer
+	 <trim prefix="set" suffixOverrides=",">
+	  <if test="custName!=null">cust_name=#{custName},</if>
+	  <if test="custRegion!=null">cust_region=#{custRegion},</if>
+	  <if test="custManagerName!=null">cust_manager_name=#{custManagerName},</if>
+	  <if test="custLevelLabel!=null">cust_level_label=#{custLevelLabel},</if>
+	  <if test="custSatisfy!=null">cust_satisfy=#{custSatisfy},</if>
+	  <if test="custCredit!=null">cust_credit=#{custCredit},</if>
+	  <if test="custAddr!=null">cust_addr=#{custAddr},</if>
+	  <if test="custZip!=null">cust_zip=#{custZip},</if>
+	  <if test="custTel!=null">cust_tel=#{custTel},</if>
+	  <if test="custFax!=null">cust_fax=#{custFax},</if>
+	  <if test="custWebsite!=null">cust_website=#{custWebsite},</if>
+	  <if test="custLicenceNo!=null">cust_licence_no=#{custLicenceNo},</if>
+	  <if test="custChieftain!=null">cust_chieftain=#{custChieftain},</if>
+	  <if test="custBankroll!=null">cust_bankroll=#{custBankroll},</if>
+	  <if test="custTurnover!=null">cust_turnover=#{custTurnover},</if>
+	  <if test="custBank!=null">cust_bank=#{custBank},</if>
+	  <if test="custBankAccount!=null">cust_bank_account=#{custBankAccount},</if>
+	  <if test="custLocalTaxNo!=null">cust_local_tax_no=#{custLocalTaxNo},</if>
+	  <if test="custNationalTaxNo!=null">cust_national_tax_no=#{custNationalTaxNo},</if>
+	 </trim>
+	 	where cust_id=#{custId}
+	</update>
+<!-- 	 	cust_name=#{custName},cust_region=#{custRegion},cust_manager_name=#{custManagerName},
+ 		cust_level_label=#{custLevelLabel},cust_satisfy=#{custSatisfy},cust_credit=#{custCredit},
+ 		cust_addr=#{custAddr},cust_zip=#{custZip},cust_tel=#{custTel},cust_fax=#{custFax},cust_website=#{custWebsite},
+ 		cust_licence_no=#{custLicenceNo},cus_chieftain=#{custChieftain},cust_bankroll=#{custBankroll},
+ 		cust_turnover=#{custTurnover},cust_bank=#{custBank},cust_bankaccount=#{custBankAccount},
+ 		cust_local_tax_no=#{custLocalTaxNo},cust_national_tax_no=#{custNationalTaxNo}
+ 		WHERE cust_id=#{custId} -->
+</mapper>

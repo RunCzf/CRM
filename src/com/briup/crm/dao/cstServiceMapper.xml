@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.crm.dao.CstServiceMapper">
+	<resultMap type="com.briup.crm.common.bean.CstService" id="cstServiceResultMap">
+		<id property="svrId" column="svr_id"/>
+		<result property="svrType" column="svr_type"/>
+		<result property="svrTitle" column="svr_title"/>
+		<result property="svrCustName" column="svr_cust_name"/>
+		<result property="svrStatus" column="svr_status"/>
+		<result property="svrRequest" column=" svr_request"/>
+		<result property="svrCreateBy" column="svr_create_by"/>
+		<result property="svrDueTo" column="svr_due_to"/>
+		<result property="svrDeal" column="svr_deal"/>
+		<result property="svrResult" column="svr_result"/>
+		<result property="svrSatisfy" column="svr_satisfy"/>
+	</resultMap>
+	<insert id="insertService" parameterType="com.briup.crm.common.bean.CstService">
+		insert into cst_service(
+		svr_id,svr_type,svr_title,svr_cust_name,svr_status,svr_request,svr_create_by)
+		values(seq_common.nextval,#{svrType},#{svrTitle},#{svrCustName},#{svrStatus},#{svrRequest},#{svrCreateBy})
+	</insert>
+	<select id="findAllByFp" resultMap="cstServiceResultMap">
+		select * from cst_service
+		<!-- <where>
+			方法一
+			<if test="svrStatus!='' and svrStatus!= null">
+				svr_status like concat(concat('%',#{svrStatus}),'%')
+			</if>
+			<if test="svrCustName != null and svrCustName != '' ">
+                AND svr_cust_name like concat(concat('%',#{svrCustName}),'%')
+            </if>
+            <if test="svrTitle != null and svrTitle != ''">
+                AND svr_title LIKE concat(concat('%',#{svrTitle}),'%')
+            </if>
+            <if test="svrType != null and svrType != ''">
+                AND svr_Type LIKE concat(concat('%',#{svrType}),'%')
+            </if>
+		</where> -->
+		<where>
+			<if test="svrStatus!='' and svrStatus!= null">
+				svr_status like '%${svrStatus}%'
+			</if>
+			<if test="svrCustName != null and svrCustName != '' ">
+                and svr_cust_name like '%${svrCustName}%'
+            </if>
+            <if test="svrTitle != null and svrTitle != ''">
+                AND svr_title LIKE '%${svrTitle}%'
+            </if>
+            <if test="svrType != null and svrType != ''">
+                AND svr_Type LIKE '%${svrType}%'
+            </if>
+		
+		</where>
+		<!-- <where>
+            <if test="age != null and age != '' and compare != null and compare != ''">
+                age
+                ${compare}
+                #{age}
+            </if>
+            <if test="name != null and name != ''">
+                AND name LIKE '%${name}%'
+            </if>
+            <if test="address != null and address != ''">
+                AND address LIKE '%${address}%'
+            </if>
+        </where> -->
+	</select>
+	<select id="findAllCstService" resultMap="cstServiceResultMap">
+		select * from cst_service
+	</select>
+	<select id="findAllServices" resultMap="cstServiceResultMap">
+		select * from cst_service
+	</select>
+	<select id="findAllCstServiceById" parameterType="long" resultMap="cstServiceResultMap" >
+		select * from cst_service where svr_id=#{id}
+	</select>
+          <!-- <trim prefix="set" suffixOverrides=",">
+          </trim>
+               <if test="svrDueTo !=null and svrDueTo !=''">svr_due_to=#{svrDueTo},</if>
+               <if test="svrStatus !=null and svrStatus !=''">svr_status=#{svrStatus},</if>
+               <if test="svrResult !=null and svrResult !=''">svr_result=#{svrResult},</if>
+               <if test="svrDeal !=null and svrDeal !=''">svr_deal=#{svrDeal}</if> -->
+	<update id="updateOneService" parameterType="com.briup.crm.common.bean.CstService">
+		update cst_service 
+          set svr_status='已分配',svr_due_to=#{svrDueTo}
+         where svr_id=#{svrId}
+	</update>
+</mapper>	

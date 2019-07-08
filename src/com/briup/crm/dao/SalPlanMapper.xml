@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.briup.crm.dao.SalPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.briup.crm.common.bean.SalPlan" >
+    <id column="PLA_ID" property="plaId" jdbcType="DECIMAL" />
+    <result column="PLA_CHC_ID" property="plaChcId" jdbcType="DECIMAL" />
+    <result column="PLA_TODO" property="plaTodo" jdbcType="VARCHAR" />
+    <result column="PLA_RESULT" property="plaResult" jdbcType="VARCHAR" />
+  </resultMap>
+  	<insert id="saveOnePlan" parameterType="com.briup.crm.common.bean.SalPlan">
+		insert into sal_plan(PLA_ID,PLA_CHC_ID,PLA_TODO) 
+		values(SEQ_PLAN.nextval,#{plaChcId},#{plaTodo})
+	</insert>
+	<select id="findSalPlanByChcId" parameterType="Long" resultType="com.briup.crm.common.bean.SalChance">
+		select * from sal_plan
+		where PLA_CHC_ID=#{chcId}
+	</select>
+	<update id="updatePlan" parameterType="com.briup.crm.common.bean.SalPlan">
+		update sal_plan set PLA_TODO=#{plaTodo} where PLA_ID=#{plaId}
+	</update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select *
+    from SAL_PLAN
+    where PLA_ID = #{plaId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from SAL_PLAN
+    where PLA_ID = #{plaId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.briup.crm.common.bean.SalPlan" >
+    insert into SAL_PLAN (PLA_ID, PLA_CHC_ID, PLA_TODO, 
+      PLA_RESULT)
+    values (#{plaId,jdbcType=DECIMAL}, #{plaChcId,jdbcType=DECIMAL}, #{plaTodo,jdbcType=VARCHAR}, 
+      #{plaResult,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.briup.crm.common.bean.SalPlan" >
+    insert into SAL_PLAN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="plaId != null" >
+        PLA_ID,
+      </if>
+      <if test="plaChcId != null" >
+        PLA_CHC_ID,
+      </if>
+      <if test="plaTodo != null" >
+        PLA_TODO,
+      </if>
+      <if test="plaResult != null" >
+        PLA_RESULT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="plaId != null" >
+        #{plaId,jdbcType=DECIMAL},
+      </if>
+      <if test="plaChcId != null" >
+        #{plaChcId,jdbcType=DECIMAL},
+      </if>
+      <if test="plaTodo != null" >
+        #{plaTodo,jdbcType=VARCHAR},
+      </if>
+      <if test="plaResult != null" >
+        #{plaResult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.briup.crm.common.bean.SalPlan" >
+    update SAL_PLAN
+    <set >
+      <if test="plaChcId != null" >
+        PLA_CHC_ID = #{plaChcId,jdbcType=DECIMAL},
+      </if>
+      <if test="plaTodo != null" >
+        PLA_TODO = #{plaTodo,jdbcType=VARCHAR},
+      </if>
+      <if test="plaResult != null" >
+        PLA_RESULT = #{plaResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PLA_ID = #{plaId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.briup.crm.common.bean.SalPlan" >
+    update SAL_PLAN
+    set PLA_CHC_ID = #{plaChcId,jdbcType=DECIMAL},
+      PLA_TODO = #{plaTodo,jdbcType=VARCHAR},
+      PLA_RESULT = #{plaResult,jdbcType=VARCHAR}
+    where PLA_ID = #{plaId,jdbcType=DECIMAL}
+  </update>
+</mapper>
